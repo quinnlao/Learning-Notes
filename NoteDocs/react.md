@@ -1,21 +1,11 @@
->本笔记为本人`洪`系统学习React阶段笔记-观看`尚硅谷2021版React技术全家桶全套完整版` 整理而成
->
->建议预备知识:[HTML+CSS+JS基础](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/HTML+CSS+JS基础笔记)、[webpack](https://gitee.com/hongjilin/hongs-study-notes/tree/master/%E7%BC%96%E7%A8%8B_%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0)、[ajax](https://gitee.com/hongjilin/hongs-study-notes/tree/master/%E7%BC%96%E7%A8%8B_%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Ajax%E3%80%81Axios%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0)、[Promise](https://gitee.com/hongjilin/hongs-study-notes/tree/master/%E7%BC%96%E7%A8%8B_%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Promise%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0)、[axios](https://gitee.com/hongjilin/hongs-study-notes/tree/master/%E7%BC%96%E7%A8%8B_%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Ajax%E3%80%81Axios%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0)知识 
->
->本人的React学习笔记分类(也是对应本人技术成长过程):[[`想快速入门看这部分`](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/React笔记/React基础补充学习笔记)]、[[`想对React基础系统全面进行学习的同学看这里`](https://gitee.com/hongjilin/hongs-study-notes/tree/master/%E7%BC%96%E7%A8%8B_%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Scss%E7%AC%94%E8%AE%B0)]、[[`对基础学习完成且有了一定开发经验,想尝试解析源码的看这里`](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/React笔记/React深入学习与源码解析笔记)]
->
->除此笔记外大家可以看我其他笔记 :**[全栈笔记](https://gitee.com/hongjilin/hongs-study-notes/tree/master)**、**[数据结构与算法](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_算法及课程基础学习笔记/数据结构与算法)**、**[编程_前端开发学习笔记](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记)**、**[编程_后台服务端学习笔记](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_后台服务端学习笔记)** 、**[Java](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_后台服务端学习笔记/Java)** 、**[Nodejs](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_后台服务端学习笔记/Nodejs)** 、**[JavaScript笔记](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/HTML+CSS+JS基础笔记/JavaScript笔记)**、**[编程工具使用笔记](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/A_前端工具使用笔记)** 、**[前端代码规范](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/A_前端代码规范)** 、**[ES6及后续版本学习笔记](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/ES6及后续版本学习笔记)** 、**[Vue笔记整合](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/Vue笔记整合)** 、**[React笔记](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/React笔记)**、**[微信小程序学习笔记](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/微信小程序学习笔记)**、**[Chrome开发使用及学习笔记](https://gitee.com/hongjilin/hongs-study-notes/tree/master/编程_前端开发学习笔记/Chrome开发使用及学习笔记)** 以及许多其他笔记就不一一例举了
->
+>本笔记为本人系统学习React阶段笔记-观看`尚硅谷2021版React技术全家桶全套完整版` 整理而成
+
 
 # React系统学习笔记
 
 ------
 
-# #目录
-
->[TOC]
-
-# Ⅰ-React基础知识与概念
+# React基础知识与概念
 
 > React相对于vue来说学习成本更高，或者说需要的基础知识更多，需要有一些预备知识点支撑
 >
@@ -50,7 +40,7 @@
 
 ### 3、创建虚拟DOM的两种方式
 
-#### 	Ⅰ- js创建虚拟DOM(`不推荐`)
+#### 	js创建虚拟DOM(`不推荐`)
 
 ```js
 //1.创建虚拟DOM,创建嵌套格式的doms
@@ -59,7 +49,7 @@ const VDOM=React.createElement('h1',{id:'title'},React.createElement('span',{},'
 ReactDOM.render(VDOM,docoment.getElementById('test'))
 ```
 
-#### 	Ⅱ -jsx创建虚拟DOM
+#### 	jsx创建虚拟DOM
 
 ```jsx
 //1.创建虚拟DOM
@@ -125,7 +115,7 @@ ReactDOM.render(VDOM,docoment.getElementById('test'))
 
 ## 三、两种组件定义区别、组件与模块理解
 
-### Ⅰ-react中定义组件
+### react中定义组件
 
 ##### ①函数式声明组件
 
@@ -153,7 +143,7 @@ ReactDOM.render(VDOM,docoment.getElementById('test'))
 >
 > ​	MyComponent的实例对象 <=> MyComponent组件实例对象。
 
-### Ⅱ-模块与模块化
+### 模块与模块化
 
 ##### ① 模块
 
@@ -165,7 +155,7 @@ ReactDOM.render(VDOM,docoment.getElementById('test'))
 
 > 当应用的js都以模块来编写,这个应用就是一个模块化的应用
 
-### Ⅲ-组件与组件化
+### 组件与组件化
 
 ##### ① 组件
 
@@ -221,7 +211,7 @@ ReactDOM.render(VDOM,docoment.getElementById('test'))
 
 ##### ③代码示例
 
-###### Ⅰ-正常的用函数对象的bind()
+###### 正常的用函数对象的bind()
 
 ```jsx
     //1.创建组件
@@ -262,7 +252,7 @@ ReactDOM.render(VDOM,docoment.getElementById('test'))
 		ReactDOM.render(<Weather/>,document.getElementById('test'))
 ```
 
-###### Ⅱ-简写方式:赋值语句的形式+箭头函数
+###### 简写方式:赋值语句的形式+箭头函数
 
 ```jsx
 	    //1.创建组件
@@ -299,7 +289,7 @@ ReactDOM.render(VDOM,docoment.getElementById('test'))
 
 ##### ③代码示例:
 
-###### Ⅰ-类组件使用props
+###### 类组件使用props
 
 ```jsx
 	//创建组件
@@ -326,7 +316,7 @@ ReactDOM.render(VDOM,docoment.getElementById('test'))
 		ReactDOM.render(<Person {...p}/>,document.getElementById('test3'))
 ```
 
-###### Ⅱ-函数组件使用props
+###### 函数组件使用props
 
 ```jsx
 //创建组件
@@ -445,7 +435,7 @@ render(){
 
 ### 4、事件处理与收集表单数据
 
-#### Ⅰ-事件处理
+#### 事件处理
 
 >1. 通过onXxx属性指定事件处理函数(注意大小写)
 >
@@ -455,7 +445,7 @@ render(){
 >
 >2. 通过event.target得到发生事件的DOM元素对象 -----不要过度使用ref
 
-#### Ⅱ-表单组件的分类
+#### 表单组件的分类
 
 > 就形式上来说，**`受控组件`就是为某个form表单组件添加`value`属性；`非受控组件`就是没有添加`value`属性的组件**
 
@@ -705,7 +695,7 @@ handleSubmit = (event)=>{
 
 
 
-# Ⅱ-React脚手架
+# React脚手架
 
 >1. xxx脚手架:用来帮助程序原快速创建一个基于xxx库的模板项目
 >
@@ -833,7 +823,7 @@ updateTodo = (id,done)=>{
 }
 ```
 
-# Ⅲ-React ajax
+# React ajax
 
 > 此部分需要预备技术栈:ajax、Axios,相关笔记已经记录在隔壁文件夹且学习完成
 
@@ -1098,7 +1088,7 @@ updateTodo = (id,done)=>{
 >  }
 >  ```
 
-#### Ⅳ-defaultChecked 、 checked的区别
+#### defaultChecked 、 checked的区别
 
 >注意defaultChecked 和 checked的区别，类似的还有：defaultValue 和 value
 
@@ -1153,11 +1143,11 @@ updateTodo = (id,done)=>{
 >}
 >```
 
-# Ⅳ-React 路由
+# React 路由
 
 ## 1、相关理解
 
-### Ⅰ-SPA的理解
+### SPA的理解
 
 >1. 单页Web应用（single page web application，SPA）。
 >
@@ -1167,7 +1157,7 @@ updateTodo = (id,done)=>{
 >
 >4. 数据都需要通过ajax请求获取, 并在前端异步展现。
 
-### Ⅱ-路由的理解
+### 路由的理解
 
 #### ① 什么是路由?
 
@@ -1193,7 +1183,7 @@ updateTodo = (id,done)=>{
 >
 >3)   工作过程：当浏览器的path变为/test时, 当前路由组件就会变为Test组件
 
-### Ⅲ-react-router-dom的理解
+### react-router-dom的理解
 
 #### ①相关概念
 
@@ -1436,7 +1426,7 @@ updateTodo = (id,done)=>{
 
 ## 10、向路由组件传递参数
 
-### Ⅰ-params参数
+### params参数
 
 >1. 路由链接(携带参数)：`<Link to='/demo/test/tom/18'}>详情</Link>`
 >
@@ -1457,7 +1447,7 @@ updateTodo = (id,done)=>{
 >     const {id,title} = this.props.match.params
 >```
 
-### Ⅱ-search参数
+### search参数
 
 >1. 路由链接(携带参数)：`<Link to='/demo/test?name=tom&age=18'}>详情</Link>`
 >2. 注册路由(`无需声明`，正常注册即可)：`<Route path="/demo/test" component={Test}/>`
@@ -1480,7 +1470,7 @@ updateTodo = (id,done)=>{
 >	const {id,title} = qs.parse(search.slice(1))
 >```
 
-### Ⅲ-state参数
+### state参数
 
 >1. 路由链接(携带参数)：[`<Link to={{pathname:'/demo/test',state:{name:'tom',age:18}}}>详情</Link>`]
 >2. 注册路由(无需声明，正常注册即可)：[`<Route path="/demo/test" component={Test}/>`]
@@ -1651,7 +1641,7 @@ updateTodo = (id,done)=>{
 
 > 备注：HashRouter可以用于解决一些路径错误相关的问题。即在`问题6`中引入文件时可以不进行路径修改
 
-### Ⅰ-底层原理不一样：
+### 底层原理不一样：
 
 >1. BrowserRouter使用的是H5的history API，不兼容IE9及以下版本。
 >
@@ -1659,7 +1649,7 @@ updateTodo = (id,done)=>{
 >
 >2. HashRouter使用的是URL的哈希值。
 
-### Ⅱ-path表现形式不一样
+### path表现形式不一样
 
 >1. BrowserRouter的路径中没有#,例如：localhost:3000/demo/test
 >
@@ -1673,7 +1663,7 @@ updateTodo = (id,done)=>{
 
 
 
-# Ⅴ-Ant Design
+# Ant Design
 
 ## 1、相关文档
 
@@ -1690,11 +1680,11 @@ updateTodo = (id,done)=>{
 
 ## 2、按需引入与自定义主题
 
-### Ⅰ-安装依赖
+### 安装依赖
 
 > yarn add react-app-rewired customize-cra babel-plugin-import less less-loader
 
-### Ⅱ-修改package.json
+### 修改package.json
 
 >```json
 >	"scripts": {
@@ -1705,7 +1695,7 @@ updateTodo = (id,done)=>{
 >	},
 >```
 
-### Ⅲ-根目录下创建config-overrides.js
+### 根目录下创建config-overrides.js
 
 >注意:如果按照官方文档的自定义主题进行配置可能会报错,需要多加一层`lessOptions`
 >
@@ -1733,15 +1723,15 @@ updateTodo = (id,done)=>{
 >);
 >```
 
-### Ⅳ-成功
+### 成功
 
 > 备注：不用在组件里亲自引入样式了，即：import 'antd/dist/antd.css'应该删掉
 
-# Ⅵ-Redux
+# Redux
 
 ## 1、redux理解
 
-### Ⅰ-学习文档
+### 学习文档
 
 >1. 英文文档: https://redux.js.org/
 >
@@ -1749,7 +1739,7 @@ updateTodo = (id,done)=>{
 >
 >3. Github: https://github.com/reactjs/redux
 
-### Ⅱ-redux是什么
+### redux是什么
 
 >1. redux是一个专门用于做`状态管理的JS库`(不是react插件库)。
 >
@@ -1757,7 +1747,7 @@ updateTodo = (id,done)=>{
 >
 >3. 作用: 集中式管理react应用中多个组件`共享`的状态。
 
-### Ⅲ-什么情况下需要使用redux
+### 什么情况下需要使用redux
 
 >1. 某个组件的状态，需要让其他组件可以随时拿到（共享）。
 >
@@ -1765,13 +1755,13 @@ updateTodo = (id,done)=>{
 >
 >3. 总体原则：能不用就不用, 如果不用比较吃力才考虑使用。
 
-### Ⅳ-redux工作流程
+### redux工作流程
 
 >![React系统学习_Redux工作流程原理图](A_React系统学习笔记中的图片/React系统学习_Redux工作流程原理图.png)
 
 ## 2、redux的三个核心概念
 
-### Ⅰ-action
+### action
 
 >1. `动作的对象`
 >
@@ -1783,7 +1773,7 @@ updateTodo = (id,done)=>{
 >
 >3. 例子：{ type: 'ADD_STUDENT',data:{name: 'tom',age:18} }
 
-### Ⅱ-reducer
+### reducer
 
 >1. 用于初始化状态、加工状态。
 >2. 加工时，根据旧的state和action， 产生新的state的`纯函数(以下为纯函数概念)``
@@ -1797,7 +1787,7 @@ updateTodo = (id,done)=>{
 
 
 
-### Ⅲ-store
+### store
 
 >1. 将state、action、reducer联系在一起的对象
 >
@@ -1832,7 +1822,7 @@ updateTodo = (id,done)=>{
 >export default createStore(reducer,composeWithDevTools(applyMiddleware(thunk)))
 >```
 
-### Ⅱ-store对象
+### store对象
 
 >1. 作用: redux库最核心的管理对象
 >
@@ -1890,7 +1880,7 @@ updateTodo = (id,done)=>{
 >)
 >```
 
-### Ⅲ-combineReducers()
+### combineReducers()
 
 > 作用：合并多个reducer函数
 >
@@ -1914,13 +1904,13 @@ updateTodo = (id,done)=>{
 
 ## 4、redux 异步编程
 
-### Ⅰ-理解
+### 理解
 
 >1. redux默认是不能进行异步处理的,
 >
 >2. 某些时候应用中需要在`redux`中执行异步任务(ajax, 定时器)
 
-### Ⅱ- 使用异步中间件
+### 使用异步中间件
 
 >1. 下载依赖`npm install --save redux-thunk`
 >
@@ -1946,13 +1936,13 @@ updateTodo = (id,done)=>{
 
 ## 5、react-redux
 
-### Ⅰ-理解
+### 理解
 
 >1. 一个react插件库
 >
 >2. 专门用来简化react应用中使用redux
 
-### Ⅱ-react-Redux将所有组件分成两大类
+### react-Redux将所有组件分成两大类
 
 #### ①  UI组件
 
@@ -1972,7 +1962,7 @@ updateTodo = (id,done)=>{
 >
 >3)   一般保存在`ontainers`文件夹下
 
-### Ⅲ-相关API
+### 相关API
 
 #### ① Provider
 
@@ -2005,7 +1995,7 @@ updateTodo = (id,done)=>{
 >   1. 该方法默认传入`state`与`dispatch`
 >   2. 可以省略`dispatch`直接传入`action`方法,该api会自动帮你调用`dispatch`
 
-##### Ⅰ-mapStateToProps
+##### mapStateToProps
 
 >作用:将外部的数据（即`state对象`）转换为UI组件的标签属性
 >
@@ -2021,7 +2011,7 @@ updateTodo = (id,done)=>{
 >}
 >```
 
-##### Ⅱ-mapDispatchToProps
+##### mapDispatchToProps
 
 >作用:将`分发action的函数`转换为UI组件的标签属性
 >
@@ -2030,7 +2020,7 @@ updateTodo = (id,done)=>{
 >3. mapDispatchToProps`用于传递操作状态的方法`
 >4. 可以省略`dispatch`,直接传入`action`,api将会`自动调用`dispatch
 
-##### Ⅲ-代码示例
+##### 代码示例
 
 >```jsx
 >------------------------------不简化代码-----------------------------------------------
@@ -2073,15 +2063,15 @@ updateTodo = (id,done)=>{
 
 ## 6、使用redux调试工具
 
-### Ⅰ- 安装chrome浏览器插件
+### 安装chrome浏览器插件
 
 > Redux DecTools
 
-### Ⅱ-下载工具依赖包
+### 下载工具依赖包
 
 > npm install --save-dev redux-devtools-extension
 
-### Ⅲ-修改store.js
+### 修改store.js
 
 >`import {composeWithDevTools} from 'redux-devtools-extension'`
 >
@@ -2101,7 +2091,7 @@ updateTodo = (id,done)=>{
 >export default createStore(reducer,composeWithDevTools(applyMiddleware(thunk)))
 >```
 
-# Ⅶ-Redux求和案例
+# Redux求和案例
 
 > 将只展示最终代码
 >
@@ -2283,7 +2273,7 @@ updateTodo = (id,done)=>{
 >
 >--`index.js`
 
-#### Ⅱ-index.js
+#### index.js
 
 >```jsx
 >import React from 'react'
@@ -2301,7 +2291,7 @@ updateTodo = (id,done)=>{
 >)
 >```
 
-#### Ⅲ-App.jsx
+#### App.jsx
 
 >```jsx
 >import React, { Component } from 'react'
@@ -2322,7 +2312,7 @@ updateTodo = (id,done)=>{
 >
 >```
 
-#### Ⅳ-redux文件
+#### redux文件
 
 >1. `action`文件夹
 >
@@ -2566,7 +2556,7 @@ updateTodo = (id,done)=>{
 >   
 >   ```
 
-# Ⅷ-React 拓展
+# React 拓展
 
 ## 1、 setState
 
@@ -3117,7 +3107,7 @@ updateTodo = (id,done)=>{
 
 
 
-# Ⅸ-组件间通信示例
+# 组件间通信示例
 
 ## 1、兄弟间传值方式1 --> [子传父、父传子]
 
@@ -3375,7 +3365,9 @@ updateTodo = (id,done)=>{
 >}
 >```
 
+# 
 
+>[To Be Continue... ]
 
 
 
