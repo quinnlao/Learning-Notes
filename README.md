@@ -1,7 +1,6 @@
 # LaoooQ's Notes
 
-- 稳定地址：https://docs.mphy.top
-- 未来不迷路：https://github.com/quinnlao/LearningNotes
+- 源码地址：https://github.com/quinnlao/NoteDocs
 
 以前学习记录的笔记，分享出来，自己也作为参考。欢迎各位指正错误或提出讨论（建议 PR）。
 
@@ -11,7 +10,7 @@
 
 使用方法：
 
-1. 离线笔记：点开 [github](https://github.com/quinnlao/LearningNotes.git) 后，这里面每个文件夹中的文件都是 `.md` 后缀的文件，这是一种 `markdown` 语法，可以使用 `typora` 文本编辑器打开，typora 下载地址：https://typoraio.cn
+1. 离线笔记：点开 [github](https://github.com/quinnlao/NoteDocs.git) 后，这里面每个文件夹中的文件都是 `.md` 后缀的文件，这是一种 `markdown` 语法，可以使用 `typora` 文本编辑器打开，typora 下载地址：https://typoraio.cn
 
 2. 本地运行：
 
