@@ -1,5 +1,6 @@
 <a name="FXIom"></a>
-#### 表格（虚拟滚动）
+## 组件性能优化实操
+### 表格（虚拟滚动）
 可编辑单元格内容更新后，重新渲染卡顿；<br />过多列和行时，虚拟滚动；
 
 ```javascript
@@ -12,28 +13,28 @@ calcColumns() {this.virtualColumns = this.allColumns.slice(this.startCol, this.e
 虚拟滚动的核心思想是只渲染用户当前视口中可见的部分数据，而不是一次性渲染所有数据。随着用户滚动，动态地增加或移除数据项，以提高渲染性能和减少内存使用。具体实现思路包括以下几点：
 
 1. **计算可见区域**：通过监听滚动事件，计算当前视口内的可见区域，确定需要渲染的起始索引和结束索引。
-- 具体步骤
-   - 通过监听滚动容器的scroll事件来捕捉滚动位置的变化。
-   - **计算当前滚动位置**：
-   - 获取滚动容器的scrollTop属性，这表示容器顶部与内容顶部之间的垂直距离。
-   - **确定起始索引和结束索引**：
-   - 计算起始索引：通过将scrollTop除以每个数据项的高度（itemHeight），并使用Math.floor向下取整得到起始索引。
-   - 计算结束索引：通过起始索引加上视口的高度（height）除以每个数据项的高度，得到结束索引。为了确保缓冲区，通常会增加一些额外的项。
+> 具体步骤
+>    - 通过监听滚动容器的scroll事件来捕捉滚动位置的变化。
+>    - **计算当前滚动位置**：
+>    - 获取滚动容器的scrollTop属性，这表示容器顶部与内容顶部之间的垂直距离。
+>    - **确定起始索引和结束索引**：
+>    - 计算起始索引：通过将scrollTop除以每个数据项的高度（itemHeight），并使用Math.floor向下取整得到起始索引。
+>    - 计算结束索引：通过起始索引加上视口的高度（height）除以每个数据项的高度，得到结束索引。为了确保缓冲区，通常会增加一些额外的项。
 
 2. **只渲染可见项**：根据计算出的索引，只渲染视口内可见的数据项，而非全部数据。
 3. **占位容器**：使用一个容器元素占位，使得滚动条的长度与实际数据长度匹配，从而实现滚动效果。
 4. **动态加载和卸载数据**：随着用户的滚动，动态地加载新数据项并卸载不再可见的数据项。
-- 具体细节...
-- 动态加载和卸载数据的目的是根据计算出的可见区域索引来更新渲染的数据项。这包括：
+5. 
+- #### 具体细节...
+> 动态加载和卸载数据的目的是根据计算出的可见区域索引来更新渲染的数据项。这包括：
+> 1. **加载新数据**：
+>   - 根据计算的起始索引和结束索引，从数据源中获取对应的数据项。
+> 2. **更新渲染数据**：
+>   - 仅渲染计算得到的可见区域内的数据项，并调整容器的填充来模拟完整列表的高度。
+>3. **维护填充区域**：
+>   - 使用顶部填充（topPadding）和底部填充（bottomPadding）来占据未渲染的数据项的位置，使滚动条保持正常工作。
 
-1. **加载新数据**：
-   - 根据计算的起始索引和结束索引，从数据源中获取对应的数据项。
-2. **更新渲染数据**：
-   - 仅渲染计算得到的可见区域内的数据项，并调整容器的填充来模拟完整列表的高度。
-3. **维护填充区域**：
-   - 使用顶部填充（topPadding）和底部填充（bottomPadding）来占据未渲染的数据项的位置，使滚动条保持正常工作。
-
-### 代码示例
+#### 代码示例
 ```javascript
 const visibleItems = items.slice(startIndex, endIndex);
 const topPadding = startIndex * itemHeight;
@@ -194,7 +195,8 @@ export default App;
 - **高度一致性**：通常适用于高度一致的列表项，对于高度不一致的项需要复杂的处理逻辑。
 - **滚动跳动**：由于动态加载和卸载数据，可能会导致滚动条跳动，需要额外处理保持滚动平滑。
 <a name="Km30U"></a>
-#### 选择器
+
+### 选择器数据结构优化
 性能问题的表象：1.多选且选项数据量大时，通过js切换批量数据的选中状态（通过key/value选中, 查找数据，展示label），耗时严重；<br />**Map的增删查性能会优于Object**<br />相关优化：选择器内部数据结构优化  object/Array -> Map (delete和set速度更快)；<br />不仅在大数据量情况下，缩短了切换数据选中的耗时；<br />选项配置(禁用等功能）的更新，使用搜索功能后，视图的响应速度更快；
 
 深挖：<br />频繁操作键值对时使用Map比Object性能更优
@@ -229,93 +231,92 @@ const TreeNode = React.memo(({ node, onDrag }) => {
 - **使用watch监听**，从而有选择地更新组件。
 - **使用v-memo指令**，Vue 3.2 引入了v-memo指令，这个指令可以缓存一个条件为真的元素或组件的渲染结果
 - **使用<KeepAlive>组件**，<KeepAlive>组件用于缓存动态组件，避免不必要的重新渲染。
-- ** 使用shallowReactive和shallowRef，**这些API可以创建浅层响应的对象和引用，避免深层次的数据变化导致不必要的渲染。
-- ** 优化组件的更新逻辑，**beforeUpdate中进行条件判断
-- ** 使用renderTracked和renderTriggered钩子**
-详情...**1. 使用v-once指令**<br />v-once指令可以确保元素或组件只渲染一次，不会因为数据变化而重新渲染。
-```javascript
+- **使用shallowReactive和shallowRef**, 这些API可以创建浅层响应的对象和引用，避免深层次的数据变化导致不必要的渲染。
+- **优化组件的更新逻辑**, beforeUpdate中进行条件判断
+- **使用renderTracked和renderTriggered钩子**
 
-<div v-once>
-  {{ message }}
-</div>
-```
-**2. 使用计算属性（Computed Properties）**<br />计算属性会基于其依赖项缓存结果，只有在依赖项变化时才重新计算和渲染。
-```javascript
-computed: {
-  computedMessage() {
-    return this.message.split('').reverse().join('');
-  }
-}
-```
-**3. 使用watch监听**<br />watch可以精确地监听数据变化，从而有选择地更新组件。
-```javascript
-watch: {
-  someData(newValue, oldValue) {
-    // 只有在需要时才更新
-    if (newValue !== oldValue) {
-      this.updateComponent();
-    }
-  }
-}
-```
-**4. 使用v-memo指令**<br />Vue 3.2 引入了v-memo指令，这个指令可以缓存一个条件为真的元素或组件的渲染结果。这个指令非常类似于React中的React.memo。
-```html
-<div v-memo="[condition]">
-  {{ message }}
-</div>
-```
-**5. 使用<KeepAlive>组件**<br /><KeepAlive>组件用于缓存动态组件，避免不必要的重新渲染。
-```html
-<keep-alive>
-  <component :is="currentComponent"></component>
-</keep-alive>
-```
-**6. 使用shallowReactive和shallowRef**<br />这些API可以创建浅层响应的对象和引用，避免深层次的数据变化导致不必要的渲染。
-```javascript
-import { shallowReactive, shallowRef } from 'vue';
+> **1. 使用v-once指令**<br />v-once指令可以确保元素或组件只渲染一次，不会因为数据变化而重新渲染。
+> ```javascript
+> <div v-once>
+>   {{ message }}
+> </div>
+> ```
+> **2. 使用计算属性（Computed Properties）**<br />计算属性会基于其依赖项缓存结果，只有在依赖项变化时才重新计算和渲染。
+> ```javascript
+> computed: {
+>   computedMessage() {
+>     return this.message.split('').reverse().join('');
+>   }
+> }
+> ```
+> **3. 使用watch监听**<br />watch可以精确地监听数据变化，从而有选择地更新组件。
+> ```javascript
+> watch: {
+>   someData(newValue, oldValue) {
+>     // 只有在需要时才更新
+>     if (newValue !== oldValue) {
+>       this.updateComponent();
+>     }
+>   }
+> }
+> ```
+> **4. 使用v-memo指令**<br />Vue 3.2 引入了v-memo指令，这个指令可以缓存一个条件为真的元素或组件的渲染结果。这个指令非常类似于React中的React.memo。
+> ```html
+> <div v-memo="[condition]">
+>   {{ message }}
+> </div>
+> ```
+> **5. 使用<KeepAlive>组件**<br /><KeepAlive>组件用于缓存动态组件，避免不必要的重新渲染。
+> ```html
+> <keep-alive>
+>   <component :is="currentComponent"></component>
+> </keep-alive>
+> ```
+> **6. 使用shallowReactive和shallowRef**<br />这些API可以创建浅层响应的对象和引用，避免深层次的数据变化导致不必要的渲染。
+> ```javascript
+> import { shallowReactive, shallowRef } from 'vue';
+> 
+> const state = shallowReactive({
+>   user: {
+>     name: 'John',
+>     age: 30
+>   }
+> });
+> 
+> const userRef = shallowRef({
+>   name: 'John',
+>   age: 30
+> });
+> ```
+> **7. 优化组件的更新逻辑，beforeUpdate中进行条件判断**<br />可以在组件的生命周期钩子中手动控制更新逻辑，例如在beforeUpdate中进行条件判断。
+> ```javascript
+> export default {
+>   beforeUpdate() {
+>     if (this.shouldUpdate()) {
+>       // 执行更新逻辑
+>     } else {
+>       // 阻止更新
+>       this.$vnode.elm._leaveCb = null;
+>     }
+>   },
+>   methods: {
+>     shouldUpdate() {
+>       // 自定义更新条件
+>       return this.someData !== this.oldData;
+>     }
+>   }
+> }
+> ```
+> **8. 使用renderTracked和renderTriggered钩子**<br />Vue 3 提供了renderTracked和renderTriggered钩子，可以用来调试和优化渲染过程。
+> ```javascript
+> export default {
+>   renderTracked(e) {
+>     console.log('Tracked:', e);
+>   },
+>   renderTriggered(e) {
+>     console.log('Triggered
+> ```
 
-const state = shallowReactive({
-  user: {
-    name: 'John',
-    age: 30
-  }
-});
-
-const userRef = shallowRef({
-  name: 'John',
-  age: 30
-});
-```
-**7. 优化组件的更新逻辑，beforeUpdate中进行条件判断**<br />可以在组件的生命周期钩子中手动控制更新逻辑，例如在beforeUpdate中进行条件判断。
-```javascript
-export default {
-  beforeUpdate() {
-    if (this.shouldUpdate()) {
-      // 执行更新逻辑
-    } else {
-      // 阻止更新
-      this.$vnode.elm._leaveCb = null;
-    }
-  },
-  methods: {
-    shouldUpdate() {
-      // 自定义更新条件
-      return this.someData !== this.oldData;
-    }
-  }
-}
-```
-**8. 使用renderTracked和renderTriggered钩子**<br />Vue 3 提供了renderTracked和renderTriggered钩子，可以用来调试和优化渲染过程。
-```javascript
-export default {
-  renderTracked(e) {
-    console.log('Tracked:', e);
-  },
-  renderTriggered(e) {
-    console.log('Triggered
-```
-<a name="I1kyR"></a>
-#### <br />
 <a name="ELd2F"></a>
 #### 2. 优化状态管理
 使用局部状态而不是全局状态来管理树节点的状态变化，减少状态更新的范围。
@@ -911,6 +912,8 @@ function bfs(node) {
 
 通过上述方法优化数据结构和算法，可以显著提升大数据量情况下树形结构的拖拽性能，减少卡顿现象。
 <a name="UMUes"></a>
+
+## 组件封装
 ### 新组件的开发：
 <a name="vQOe8"></a>
 #### 标签组（tag-group）
@@ -947,6 +950,47 @@ function bfs(node) {
 这个组件的实现比较复杂，主要逻辑在 **update** 方法中，它根据页面滚动位置和 props 中的偏移值来判断是否需要固定定位，然后更新样式。
 
 <a name="UhFCz"></a>
+### 封装组件
+
+1. **工具类型的组件**，与具体的项目无关，例如轮播图组件，element-ui
+2. 项目**业务相关的组件**，与具体的项目紧密相关，可能会在项目中使用多次，或者是公司统一系列的项目中使用，比如图片上传组件，凡是涉及到上传或者修改图片的都可以使用
+3. 项目**复杂页面的子组件**，不hi使用多次，比如后管系统中员工管理页面，因为页面信息较多，通过组件拆分，比较好管理维护
+
+[https://juejin.cn/post/6952777507162554382](https://juejin.cn/post/6952777507162554382)
+
+<a name="A8juS"></a>
+#### 一、前端组件封装的设计思路
+
+1. **单一职责原则（SRP）**： 每个组件应当只负责一项功能，这样可以确保组件的独立性和可维护性。
+2. **可复用性**： 组件设计应当尽量通用，避免与具体业务逻辑耦合，从而能够在不同项目或不同场景下复用。
+3. **可组合性**： 组件应当设计得可以被其他组件组合使用，类似于乐高积木，这样可以通过组合简单组件来构建复杂组件。
+4. **状态管理**： 组件内部应当有清晰的状态管理，明确哪些状态是内部状态（私有状态），哪些是外部传入的状态（公共状态）。
+5. **样式隔离**： 使用模块化的CSS或样式解决方案（如CSS Modules, Styled Components等）来确保组件的样式不与外部产生冲突。
+
+6. <a name="w3J7U"></a>
+#### 二、常见的组件封装手段
+
+1. **函数式组件和类组件**： 在React中，可以使用函数式组件（Function Components）和类组件（Class Components）来封装组件。函数式组件更加简洁，而类组件则提供了更多的生命周期方法。
+2. **高阶组件（HOC）**： 高阶组件是一种增强组件功能的设计模式。它是一个函数，接受一个组件并返回一个新的组件。常用于逻辑复用和代码重用。
+3. **Render Props**： Render Props是一种在React中共享代码的技术。通过将函数作为props传递给组件，从而可以灵活地控制组件的渲染逻辑。
+4. **Hooks**： React Hooks提供了一种在函数组件中使用状态和其他React特性的方式，如useState, useEffect, useContext等。它简化了组件逻辑的组织和重用。
+5. **Slot/插槽**： 在Vue中，可以使用插槽来实现组件内容的灵活定制。插槽允许父组件在子组件内部插入内容。
+6. **组件库和UI框架**： 使用现有的组件库（如Ant Design, Material-UI, Bootstrap等）可以快速构建UI，并可以根据需要进行二次封装以适应具体业务需求。
+   <a name="KyMvy"></a>
+#### 三、前端组件封装的意义
+
+1. **提高开发效率**： 通过封装常用组件，开发人员可以避免重复造轮子，直接复用已有组件，从而大大提升开发效率。
+2. **提升代码可维护性**： 封装良好的组件具有清晰的接口和职责分离，可以减少代码耦合，提高代码的可维护性和可读性。
+3. **增强一致性和可测试性**： 组件封装可以确保UI的一致性，并且每个组件可以单独测试，从而提高整体系统的稳定性和可靠性。
+4. **代码复用**： 封装组件使得代码可以在不同项目中复用，减少了重复劳动，提升了整体的开发效率。
+5. **方便团队协作**： 封装好的组件可以作为团队内的共享资源，所有成员都可以使用和贡献，促进了团队的协作和知识共享。
+   <a name="LDMwT"></a>
+#### 四、总结
+前端组件封装是现代前端开发的核心实践，通过遵循单一职责原则、关注复用性和组合性，并运用高阶组件、Hooks、插槽等技术手段，可以构建出高效、稳定、可维护的前端系统。封装组件不仅提升了开发效率和代码质量，还促进了团队协作和知识共享，是每个前端开发者都应当掌握的重要技能。
+
+**模块化：** 将一个大的问题或功能分解为多个小的模块，每个模块可以独立地处理一个特定的任务或逻辑。每个组件都可以看作一个模块，处理特定的功能。<br />**抽象：** 组件应该隐藏内部实现细节，只暴露必要的接口和方法供外部使用。这样可以降低使用者的学习成本，减少出错的可能性。<br />**接口设计：** 定义清晰的接口，包括props（用于传递数据和配置）、事件（用于触发动作）和插槽（用于渲染组件内部的内容）。接口设计应该具有直观性和一致性。<br />**高内聚低耦合：** 组件应该具有高内聚性，即组件内部的功能相关性紧密。同时，组件之间应该保持低耦合，减少彼此的依赖。<br />**复用性：** 设计组件时应考虑到它的可复用性。一个好的组件可以在不同的场景中重复使用，避免了重复编写相同的代码。<br />**封装状态和逻辑：** 组件可以封装一些内部状态和逻辑，以提供特定的功能。这有助于隔离组件内部的细节，使其更易于管理。<br />**文档和示例： **提供清晰的文档和使用示例，使其他开发者能够快速了解如何正确地使用你的组件。文档应该涵盖组件的接口、用法和示例代码。<br />**测试性：** 组件应该易于测试，使你能够更轻松地编写单元测试来验证组件的功能和行为。<br />**维护性：** 组件的封装应该有助于提高代码的可维护性。组件内部的逻辑应该被合理地组织，使其易于理解和修改。<br />总的来说，封装组件的基本思想是通过将功能模块化、隐藏实现细节、提供清晰的接口和设计、增加复用性等方式，创造出一个可复用、易维护、易测试的代码单元，从而提高整体代码质量和开发效率。
+
+<a name="TfCvW"></a>
 ### 优化css样式结构
 <a name="RAQFu"></a>
 #### 样式隔离（组件库和用户、组件之间）；
@@ -965,7 +1009,8 @@ line-height等继承属性影响：BFC；<br />**避免缩放导致位置差异�
 优化后：正方形旋转45度+ z-index， 用border绘制箭头，
 <a name="AAfZs"></a>
 #### table-border：
-原方案细节：```css
+原方案细节：
+```css
 background-image: 
 linear-gradient(-90deg,$--table-border-color,$--table-border-color),
 linear-gradient(-180deg,$--table-border-color,$--table-border-color);
@@ -1005,6 +1050,7 @@ background-size 设置为 0 100% 和 100% 1px,当浏览器缩放时,这两个固
 3. background-position 使用具体数值调整位置
 4. 考虑不同缩放情况下的容错性
 5. 适当补充多余空间避免直接缩放消失
+
 <a name="ttjQr"></a>
 #### 分页器，dissociates
 在复杂场景下会受到所在父组件的样式影响；（layout和dissociates都能完成左右分离结构，但共同使用时会样式冲突；）<br />通过display构建形成BFC；
@@ -1013,30 +1059,37 @@ background-size 设置为 0 100% 和 100% 1px,当浏览器缩放时,这两个固
 <a name="qCeZy"></a>
 ### 样式隔离
 
-1. **命名约定**：
-   - 命名约定是指在编写CSS时，遵循一定的命名规范来确保样式的唯一性。例如，BEM（Block Element Modifier）是一种常见的命名约定，它将样式类名分为块（Block）、元素（Element）和修饰符（Modifier），通过特定的命名规则来定义样式类名，从而确保样式的唯一性。
-   - 例如，在BEM中，一个按钮的样式类名可以是.button，它的子元素可以是.button__icon，表示按钮内部的图标，而修改按钮样式的修饰符可以是.button--primary，表示按钮的主要样式。
-   - 使用命名约定可以减少样式的冲突，提高代码的可读性和可维护性。
-2. **CSS Modules**：
-   - CSS Modules是一种在Webpack等打包工具中使用的技术，它通过在构建过程中为每个模块中的类名添加唯一的标识符，从而实现了样式的局部作用域。
-   - 样式表文件中的类名被编译成一串独一无二的 hash 值，同时从控制台进行元素审查能够发现 HTML 元素的类名也变成了相应的 hash 值，因此不同组件中使用相同的类名也就不会产生冲突。
-   - 在使用CSS Modules时，每个CSS文件被视为一个模块，导出的类名会被重命名，然后在JavaScript文件中引用。这样就避免了全局样式的冲突，只有在当前模块中才能访问到对应的样式。
-   - 使用CSS Modules可以有效地实现样式隔离，但需要配合Webpack等构建工具使用。
-3. **Scoped CSS**：
-   - Scoped CSS是Vue框架提供的一种样式隔离方案，它通过在<style>标签中添加scoped属性，使得样式仅对当前组件有效。
-   - 在使用Scoped CSS时，Vue会自动生成一个唯一的属性选择器，将样式应用到当前组件的DOM元素上，从而实现了样式的隔离。
-   - Scoped CSS适用于Vue单文件组件中，可以有效地解决组件之间样式的冲突问题。
-4. **CSS-in-JS**：
-   - CSS-in-JS是一种将CSS写入JavaScript文件中的解决方案，它通过在组件中动态生成样式， 样式直接与组件相关联，使得组件的样式与组件本身紧密结合，从而实现了样式与组件的强耦合，避免了全局污染。
-   - 常见的CSS-in-JS库包括Styled-components、Emotion等，它们提供了一种直观的方式来编写样式，并且可以根据组件的状态和属性动态生成样式。
-5. **Shadow DOM**：
-   - Shadow DOM是Web标准的一部分，它允许将DOM树和样式封装在一个独立的作用域中，从而实现了真正的样式隔离。
-   - 在使用Web组件时，可以通过Shadow DOM来隔离组件的样式，防止与外部样式冲突。每个Shadow DOM都有自己的作用域，样式只会应用到当前Shadow DOM内部的DOM元素上。
+#### 命名约定：
+- 命名约定是指在编写CSS时，遵循一定的命名规范来确保样式的唯一性。例如，BEM（Block Element Modifier）是一种常见的命名约定，它将样式类名分为块（Block）、元素（Element）和修饰符（Modifier），通过特定的命名规则来定义样式类名，从而确保样式的唯一性。
+- 例如，在BEM中，一个按钮的样式类名可以是.button，它的子元素可以是.button__icon，表示按钮内部的图标，而修改按钮样式的修饰符可以是.button--primary，表示按钮的主要样式。
+- 使用命名约定可以减少样式的冲突，提高代码的可读性和可维护性。
+
+#### CSS Modules：
+- CSS Modules是一种在Webpack等打包工具中使用的技术，它通过在构建过程中为每个模块中的类名添加唯一的标识符，从而实现了样式的局部作用域。
+- 样式表文件中的类名被编译成一串独一无二的 hash 值，同时从控制台进行元素审查能够发现 HTML 元素的类名也变成了相应的 hash 值，因此不同组件中使用相同的类名也就不会产生冲突。
+- 在使用CSS Modules时，每个CSS文件被视为一个模块，导出的类名会被重命名，然后在JavaScript文件中引用。这样就避免了全局样式的冲突，只有在当前模块中才能访问到对应的样式。
+- 使用CSS Modules可以有效地实现样式隔离，但需要配合Webpack等构建工具使用。
+
+#### Scoped CSS：
+- Scoped CSS是Vue框架提供的一种样式隔离方案，它通过在`<style>`标签中添加scoped属性，使得样式仅对当前组件有效。
+- 在使用Scoped CSS时，Vue会自动生成一个唯一的属性选择器，将样式应用到当前组件的DOM元素上，从而实现了样式的隔离。
+- Scoped CSS适用于Vue单文件组件中，可以有效地解决组件之间样式的冲突问题。
+
+#### CSS-in-JS：
+- CSS-in-JS是一种将CSS写入JavaScript文件中的解决方案，它通过在组件中动态生成样式， 样式直接与组件相关联，使得组件的样式与组件本身紧密结合，从而实现了样式与组件的强耦合，避免了全局污染。
+- 常见的CSS-in-JS库包括Styled-components、Emotion等，它们提供了一种直观的方式来编写样式，并且可以根据组件的状态和属性动态生成样式。
+
+#### Shadow DOM：
+- Shadow DOM是Web标准的一部分，它允许将DOM树和样式封装在一个独立的作用域中，从而实现了真正的样式隔离。
+- 在使用Web组件时，可以通过Shadow DOM来隔离组件的样式，防止与外部样式冲突。每个Shadow DOM都有自己的作用域，样式只会应用到当前Shadow DOM内部的DOM元素上。
 
 这些方案各有优劣，可以根据具体项目的需求和技术栈来选择合适的方案。样式隔离是前端开发中非常重要的一环，它可以帮助我们管理复杂的样式结构，提高代码的可维护性和可重用性。
+
 <a name="KP0Sf"></a>
 ### vue2-vue3升级过程中遇到的问题 如何解决
- 三方依赖包的版本不匹配<br /> Vue 3引入了Composition API和其他新的语法，同时移除了一些旧的API。  <br />模板指令与插槽不同
+- 三方依赖包的版本不匹配
+- Vue 3引入了Composition API和其他新的语法，同时移除了一些旧的API。 
+- 模板指令与插槽不同
 
       - 组件上 v-model 用法已更改。
       - <template v-for> 和 非 v-for 节点上 key 用法已更改。
@@ -1044,7 +1097,7 @@ background-size 设置为 0 100% 和 100% 1px,当浏览器缩放时,这两个固
       - v-for 中的 ref 不再注册 ref 数组 。
       - vue2中使用slot可以**直接使用slot，**vue3中必须使用**v-slot的形式，<template>。**
 
-移除api
+- 移除api
 
       - vue3中移除keyCode作为v-on的修饰符，当然也不支持config.keyCodes；vue3中**移除v-on.native修饰符**；vue3中**移除过滤器filter**。
       - keyCode 支持作为 v-on 的修饰符。
@@ -1053,9 +1106,10 @@ background-size 设置为 0 100% 和 100% 1px,当浏览器缩放时,这两个固
       - 内联模板 attribute 。
       - $destroy 实例方法。用户不应再手动管理单个 Vue 组件的生命周期。
 
- 生命周期钩子变化  
+生命周期钩子变化  
+
 <a name="PA7sQ"></a>
-### 打包优化
+## 打包优化
 <a name="JUEeG"></a>
 #### 代码层面的优化
 
@@ -1615,44 +1669,6 @@ module.exports = {
 };
 ```
 <a name="BiTSK"></a>
-### 封装组件
-
-1. **工具类型的组件**，与具体的项目无关，例如轮播图组件，element-ui
-2. 项目**业务相关的组件**，与具体的项目紧密相关，可能会在项目中使用多次，或者是公司统一系列的项目中使用，比如图片上传组件，凡是涉及到上传或者修改图片的都可以使用
-3. 项目**复杂页面的子组件**，不hi使用多次，比如后管系统中员工管理页面，因为页面信息较多，通过组件拆分，比较好管理维护
-
-[https://juejin.cn/post/6952777507162554382](https://juejin.cn/post/6952777507162554382)
-<a name="A8juS"></a>
-#### 一、前端组件封装的设计思路
-
-1. **单一职责原则（SRP）**： 每个组件应当只负责一项功能，这样可以确保组件的独立性和可维护性。
-2. **可复用性**： 组件设计应当尽量通用，避免与具体业务逻辑耦合，从而能够在不同项目或不同场景下复用。
-3. **可组合性**： 组件应当设计得可以被其他组件组合使用，类似于乐高积木，这样可以通过组合简单组件来构建复杂组件。
-4. **状态管理**： 组件内部应当有清晰的状态管理，明确哪些状态是内部状态（私有状态），哪些是外部传入的状态（公共状态）。
-5. **样式隔离**： 使用模块化的CSS或样式解决方案（如CSS Modules, Styled Components等）来确保组件的样式不与外部产生冲突。
-<a name="w3J7U"></a>
-#### 二、常见的组件封装手段
-
-1. **函数式组件和类组件**： 在React中，可以使用函数式组件（Function Components）和类组件（Class Components）来封装组件。函数式组件更加简洁，而类组件则提供了更多的生命周期方法。
-2. **高阶组件（HOC）**： 高阶组件是一种增强组件功能的设计模式。它是一个函数，接受一个组件并返回一个新的组件。常用于逻辑复用和代码重用。
-3. **Render Props**： Render Props是一种在React中共享代码的技术。通过将函数作为props传递给组件，从而可以灵活地控制组件的渲染逻辑。
-4. **Hooks**： React Hooks提供了一种在函数组件中使用状态和其他React特性的方式，如useState, useEffect, useContext等。它简化了组件逻辑的组织和重用。
-5. **Slot/插槽**： 在Vue中，可以使用插槽来实现组件内容的灵活定制。插槽允许父组件在子组件内部插入内容。
-6. **组件库和UI框架**： 使用现有的组件库（如Ant Design, Material-UI, Bootstrap等）可以快速构建UI，并可以根据需要进行二次封装以适应具体业务需求。
-<a name="KyMvy"></a>
-#### 三、前端组件封装的意义
-
-1. **提高开发效率**： 通过封装常用组件，开发人员可以避免重复造轮子，直接复用已有组件，从而大大提升开发效率。
-2. **提升代码可维护性**： 封装良好的组件具有清晰的接口和职责分离，可以减少代码耦合，提高代码的可维护性和可读性。
-3. **增强一致性和可测试性**： 组件封装可以确保UI的一致性，并且每个组件可以单独测试，从而提高整体系统的稳定性和可靠性。
-4. **代码复用**： 封装组件使得代码可以在不同项目中复用，减少了重复劳动，提升了整体的开发效率。
-5. **方便团队协作**： 封装好的组件可以作为团队内的共享资源，所有成员都可以使用和贡献，促进了团队的协作和知识共享。
-<a name="LDMwT"></a>
-#### 四、总结
-前端组件封装是现代前端开发的核心实践，通过遵循单一职责原则、关注复用性和组合性，并运用高阶组件、Hooks、插槽等技术手段，可以构建出高效、稳定、可维护的前端系统。封装组件不仅提升了开发效率和代码质量，还促进了团队协作和知识共享，是每个前端开发者都应当掌握的重要技能。
-
-**模块化：** 将一个大的问题或功能分解为多个小的模块，每个模块可以独立地处理一个特定的任务或逻辑。每个组件都可以看作一个模块，处理特定的功能。<br />**抽象：** 组件应该隐藏内部实现细节，只暴露必要的接口和方法供外部使用。这样可以降低使用者的学习成本，减少出错的可能性。<br />**接口设计：** 定义清晰的接口，包括props（用于传递数据和配置）、事件（用于触发动作）和插槽（用于渲染组件内部的内容）。接口设计应该具有直观性和一致性。<br />**高内聚低耦合：** 组件应该具有高内聚性，即组件内部的功能相关性紧密。同时，组件之间应该保持低耦合，减少彼此的依赖。<br />**复用性：** 设计组件时应考虑到它的可复用性。一个好的组件可以在不同的场景中重复使用，避免了重复编写相同的代码。<br />**封装状态和逻辑：** 组件可以封装一些内部状态和逻辑，以提供特定的功能。这有助于隔离组件内部的细节，使其更易于管理。<br />**文档和示例： **提供清晰的文档和使用示例，使其他开发者能够快速了解如何正确地使用你的组件。文档应该涵盖组件的接口、用法和示例代码。<br />**测试性：** 组件应该易于测试，使你能够更轻松地编写单元测试来验证组件的功能和行为。<br />**维护性：** 组件的封装应该有助于提高代码的可维护性。组件内部的逻辑应该被合理地组织，使其易于理解和修改。<br />总的来说，封装组件的基本思想是通过将功能模块化、隐藏实现细节、提供清晰的接口和设计、增加复用性等方式，创造出一个可复用、易维护、易测试的代码单元，从而提高整体代码质量和开发效率。
-<a name="TfCvW"></a>
 ### 代码重构
 <a name="kiryG"></a>
 #### 重构的意义
@@ -1666,7 +1682,9 @@ module.exports = {
 #### 常见的重构方式和思路
 
 1. **提取函数**：将重复或复杂的代码段提取到独立的函数中，提高代码的模块化程度。
-detail```javascript
+
+[//]: # (detail)
+```javascript
 // Before
 function renderUser(user) {
   console.log('Name: ' + user.name);
@@ -1743,7 +1761,8 @@ const createUser = (name, age) => ({ name, age });
 ```
 
 5. **组件化和模块化**：在现代前端框架（如React、Vue、Angular）中，将大块的代码拆分为更小、更独立的组件或模块。
-合理的模块拆分```javascript
+合理的模块拆分
+```javascript
 // Before
 function App() {
   return (
@@ -1822,6 +1841,7 @@ function incrementCounter(counter) {
 
 通过以上方式和思路，可以有效地进行前端代码重构，提高代码质量，使得项目更加易于维护和扩展。
 <a name="vgXM7"></a>
+
 ### 工作流引擎
 <br />在工作流引擎或工作流设计系统中，前端的主要工作涉及到多个方面，以确保用户可以直观地设计、管理和监控工作流。以下是前端的主要工作内容：
 
@@ -1850,6 +1870,7 @@ function incrementCounter(counter) {
    - **资源管理**：优化资源的加载和管理，减少不必要的资源消耗，提高用户体验。
 
 前端开发者需要与后端开发者密切合作，以确保前端设计的各项功能能够正确调用后端API，并与后端逻辑保持一致。此外，前端还需注重用户体验（UX），确保界面简洁易用，满足用户的需求。
+
 <a name="djf7Z"></a>
 ### gulp
 Gulp是一个基于node的流程管理工具，可以说是一个自动化构建工具，在前端项目开发中常用来进行编译、压缩（css文件、html文件、图片文件）、合并、重命名、代码检查等等一系列操作，让简单的任务更简单，复杂的任务可管理。
@@ -1870,6 +1891,7 @@ Gulp是一个基于node的流程管理工具，可以说是一个自动化构建
   "gulp-sass": "^5.1.0",
 ```
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/43022426/1713349914568-81b19575-7937-451c-8948-ac11cf61845d.png#averageHue=%23f8f7f6&clientId=u3c2aaff8-c0d9-4&from=paste&height=529&id=uae5cf560&originHeight=727&originWidth=332&originalType=binary&ratio=1.375&rotation=0&showTitle=false&size=28271&status=done&style=none&taskId=u8af517fb-1b40-4682-b2af-ecc76104451&title=&width=241.45454545454547)
+
 <a name="q6QbO"></a>
 #### 主题切换：
 gen-cssfile.js<br />gen-devcssfile.js<br />一套scss文件通过gulp编译成两套index.css文件，
@@ -1890,18 +1912,17 @@ gen-cssfile.js<br />gen-devcssfile.js<br />一套scss文件通过gulp编译成�
 10. 禁止使用eval()函数来处理来自外部的不可信数据。
 
 [https://blog.csdn.net/2401_83412172/article/details/137169070](https://blog.csdn.net/2401_83412172/article/details/137169070)<br />[安全编码规范](https://segmentfault.com/a/1190000039413063?sort=votes#item-4)
+
 <a name="kndbV"></a>
+
 ### playWright怎么用
 Playwright 是一个用于 Web 测试自动化的强大工具，它支持多浏览器（Chromium、Firefox 和 WebKit）测试。下面是一个基本的入门指南，介绍如何安装和使用 Playwright 进行测试。<br />安装 Playwright<br />首先，你需要安装 Node.js 和 npm（或 Yarn）。然后，可以通过 npm 安装 Playwright：
-```
-bash
-复制代码
+```bash
 npm install playwright
 ```
+
 或者使用 Yarn：
-```
-bash
-复制代码
+```bash
 yarn add playwright
 ```
 编写和运行第一个测试<br />接下来，创建一个简单的测试脚本。比如，在你的项目目录下创建一个 example.spec.js 文件：
@@ -1925,17 +1946,15 @@ const { chromium } = require('playwright');
 })();
 ```
 运行测试脚本<br />在命令行中运行你的脚本：
-```
-bash
-复制代码
+```bash
 node example.spec.js
 ```
 这将启动 Chromium 浏览器，打开 https://example.com，获取页面标题并打印出来，然后截取屏幕截图并保存为 example.png。<br />使用 Playwright Test Runner<br />Playwright 提供了一个内置的测试运行器，可以更方便地编写和组织测试。你可以使用它来编写更复杂的测试。<br />首先，安装 Playwright 测试运行器：
-```
-bash
-复制代码
+
+```bash
 npm install @playwright/test
 ```
+
 然后，创建一个测试文件，比如 example.test.js：
 ```javascript
 const { test, expect } = require('@playwright/test');
@@ -1960,7 +1979,9 @@ test('basic test', async ({ page }) => {
 ```bash
 npm test
 ```
-更多功能<br />Playwright 提供了许多强大的功能，以下是一些常见的功能示例：<br />1. 表单交互
+更多功能<br />Playwright 提供了许多强大的功能，以下是一些常见的功能示例：
+
+1. 表单交互
 ```javascript
 await page.fill('#username', 'myuser');
 await page.fill('#password', 'mypassword');
@@ -1984,6 +2005,7 @@ page.on('request', request => {
 });
 ```
 5. 多浏览器测试
+
 ```javascript
 const { chromium, firefox, webkit } = require('playwright');
 
@@ -1995,13 +2017,26 @@ for (const browserType of [chromium, firefox, webkit]) {
   await browser.close();
 }
 ```
-**Playwright Documentation**<br />Playwright 的文档非常详细，包含了所有的API和示例。可以访问 Playwright Documentation 获取更多信息。<br />通过这个入门指南，你应该能够安装和使用 Playwright 来进行基础的 Web 测试。Playwright 功能强大，支持许多高级用例，你可以深入研究文档以充分利用其功能。
+
+**Playwright Documentation**<br />
+Playwright 的文档非常详细，包含了所有的API和示例。可以访问 Playwright Documentation 获取更多信息。<br />通过这个入门指南，你应该能够安装和使用 Playwright 来进行基础的 Web 测试。Playwright 功能强大，支持许多高级用例，你可以深入研究文档以充分利用其功能。
+
 <a name="p0SW1"></a>
 ### 脚本
-shell<br />（npm删包发包，npm-setting，ssl-strict = false）<br />xml<br />（maven发包，下载，配置构建镜像，依赖分析/检查）
+shell<br />
+（npm删包发包，npm-setting，ssl-strict = false）<br />xml<br />（maven发包，下载，配置构建镜像，依赖分析/检查）
 <a name="s4PsE"></a>
 ### 单点登录
-SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统<br />SSO 一般都需要一个独立的认证中心（passport），子系统的登录均得通过passport，子系统本身将不参与登录操作<br />当一个系统成功登录以后，passport将会颁发一个令牌给各个子系统，子系统可以拿着令牌会获取各自的受保护资源，为了减少频繁认证，各个子系统在被passport授权以后，会建立一个局部会话，在一定时间内可以无需再次向passport发起认证<br />**同域名下的单点登录**<br />cookie的domain属性设置为当前域的父域，并且父域的cookie会被子域所共享。path属性默认为web应用的上下文路径<br />**不同域名下的单点登录**<br />登录服务作为模块抽离出来，前端可以通过构造npm包的来实现<br />[https://vue3js.cn/interview/JavaScript/single_sign.html#%E4%B8%80%E3%80%81%E6%98%AF%E4%BB%80%E4%B9%88](https://vue3js.cn/interview/JavaScript/single_sign.html#%E4%B8%80%E3%80%81%E6%98%AF%E4%BB%80%E4%B9%88)<br />![image.png](https://cdn.nlark.com/yuque/0/2024/png/43022426/1713487594253-cc196b92-b1f1-4cf1-ae1d-d1112cdd71bd.png#averageHue=%23f6f6f6&clientId=ua05b3679-0809-4&from=paste&id=u3017415c&originHeight=246&originWidth=440&originalType=url&ratio=1.375&rotation=0&showTitle=false&size=24072&status=done&style=none&taskId=u308e8bca-9cab-47e9-90bb-68b2edccefb&title=)<br />上图有四个系统，分别是Application1、Application2、Application3、和SSO，当Application1、Application2、Application3需要登录时，将跳到SSO系统，SSO系统完成登录，其他的应用系统也就随之登录了
+
+SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统<br />
+SSO 一般都需要一个独立的认证中心（passport），子系统的登录均得通过passport，子系统本身将不参与登录操作<br />
+当一个系统成功登录以后，passport将会颁发一个令牌给各个子系统，子系统可以拿着令牌会获取各自的受保护资源，为了减少频繁认证，各个子系统在被passport授权以后，会建立一个局部会话，在一定时间内可以无需再次向passport发起认证<br />
+**同域名下的单点登录**<br />
+cookie的domain属性设置为当前域的父域，并且父域的cookie会被子域所共享。path属性默认为web应用的上下文路径<br />
+**不同域名下的单点登录**<br />登录服务作为模块抽离出来，前端可以通过构造npm包的来实现<br />
+[https://vue3js.cn/interview/JavaScript/single_sign.html#%E4%B8%80%E3%80%81%E6%98%AF%E4%BB%80%E4%B9%88](https://vue3js.cn/interview/JavaScript/single_sign.html#%E4%B8%80%E3%80%81%E6%98%AF%E4%BB%80%E4%B9%88)<br />
+![image.png](images/sso.png)<br />
+上图有四个系统，分别是Application1、Application2、Application3、和SSO，当Application1、Application2、Application3需要登录时，将跳到SSO系统，SSO系统完成登录，其他的应用系统也就随之登录了
 
 [前端登录方案大全...](https://juejin.cn/post/6845166891393089544)
 <a name="FAAp9"></a>
@@ -2058,7 +2093,6 @@ service.interceptors.request.use((config) => {
   return config
 })
 ```
- <br /> 
 <a name="GMhKE"></a>
 #### 后端控制token有效期 / 被动退出
 在响应拦截器中做判断 当用户登录过期时，后端会返回用户登录过期的状态码，前端只需要用if来检测后端返回的数据，如果返回的数据显示当前token已经过期，那么将不返回数据给用户，而是直接进行退出操作，并且强制返回到login页面
@@ -2066,6 +2100,4 @@ service.interceptors.request.use((config) => {
 1. 和后端协商设置token有效期，并在用户打开页面时设置发送带token的请求接口用于验证token是否有效，若token过期则返回指定错误码。
 2. 前端获取到指定错误码后则跳转到登录页。
 
-<a name="kVEeC"></a>
-### 
 
