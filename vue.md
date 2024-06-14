@@ -1,4 +1,4 @@
-do<a name="ss74U"></a>
+<a name="ss74U"></a>
 ### vue组件props，methods，data，computed，watch的加载顺序
 props - > methods - > data - > computed - > watch
 
