@@ -16,7 +16,7 @@
 
   ```bash
   npm i docsify-cli -g
-  git clone git@github.com:quinnlao/LearningNotes.git NoteDocs
+  git clone git@github.com:quinnlao/NoteDocs.git
   cd docs
   docsify serve
   ```
